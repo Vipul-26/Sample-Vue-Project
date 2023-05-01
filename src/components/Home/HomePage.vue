@@ -5,7 +5,10 @@ export default {
   //   type: prop_type,
   //   required: true/false,
   //   default: default_value
-  // }
+  // },
+  // props: {
+  //   parentFunction: Function
+  // },
   inject: ['parentProp'],
   emits: ['parentFunction'],
   data() {
@@ -24,6 +27,7 @@ export default {
   <h4>{{ prop3 }}</h4>
   <h4>{{ parentProp }}</h4>
   <button @click="$emit('parentFunction', 'Singh')">Child Se Parent Function Call & Parent Data Change</button>
+  <!-- <button @click="parentFunction('Singh')">Child Se Parent Function Call & Parent Data Change</button> -->
 </template>
 
 <!-- Internal Css to be written inside style tag -->

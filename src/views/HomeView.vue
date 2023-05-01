@@ -27,7 +27,20 @@ export default {
       names: ['John', 'Jane'],
       parentData: 'Vipul',
       post: [],
-      postUsingAxios: []
+      postUsingAxios: [],
+      isActive: true,
+      hasError: true,
+      rawHtml: "<span style='color: red'>This should be red.</span>",
+      author: {
+        name: 'John Doe',
+        books: [
+          'Vue 2 - Advanced Guide',
+          'Vue 3 - Basic Guide',
+          'Vue 4 - The Mystery'
+        ]
+      },
+      kilometers: 0,
+      meters: 0
     }
   },
   methods: { // List of comma seperated functions that we use in this file
@@ -102,6 +115,22 @@ export default {
   },
   unmounted() { // this life cycle hook is invoked when the update has been processed (when we stop seeing the app in the browser)
     console.log('Unmounted Triggered')
+  },
+  computed: {
+    // Whenever re-render happens below function will call again & again until any value used here is changed (return cached data)
+    publishedBooksMessage() {
+      return this.author.books.length > 0 ? 'Yes' : 'No'
+    }
+  },
+  watch: {
+    kilometers: function (val) {
+      this.kilometers = val;
+      this.meters = val * 1000;
+    },
+    meters: function (val) {
+      this.kilometers = val / 1000;
+      this.meters = val;
+    }
   }
 }
 </script>
@@ -109,6 +138,7 @@ export default {
 <!--Template is usually in a script tag with type of vue-template to prevent the browser from executing it as JavaScript code. 
 Vue never renders the template tag, it’s only used to group elements. -->
 <template>
+  <!-- Noraml Coding -->
   <div class="about">
     <h1>This is home page</h1>
   </div>
@@ -117,6 +147,7 @@ Vue never renders the template tag, it’s only used to group elements. -->
   <HomePage prop1="Hi I am from Parent" prop2="prop2" prop3="prop3" v-on:parentFunction="updateParentData"
     ref="componentRef" />
   {{ parentData }}
+
   <!-- Calling the function -->
   <h5>{{ funcGetUserName() }}</h5>
   <h5>{{ funcGetUserEmail() }}</h5>
@@ -142,6 +173,12 @@ Vue never renders the template tag, it’s only used to group elements. -->
   <!-- Two Way Binding -->
   <p>Two Way Data: {{ twoWayData }}</p>
   <input type="text" v-model="twoWayData">
+  <!-- On Outfocus data will be visible -->
+  <!-- <input type="text" v-model.lazy="twoWayData"> -->
+  <!-- Trim unwanted spaces -->
+  <!-- <input type="text" v-model.trim="twoWayData"> -->
+  <!-- It will take number only -->
+  <!-- <input type="text" v-model.number.lazy="twoWayData"> -->
   <p>Country: {{ country }}</p>
   <select v-model="country">
     <option value="">Please select your Coutry</option>
@@ -186,6 +223,30 @@ Vue never renders the template tag, it’s only used to group elements. -->
   <!-- Router -->
   <button @click="$router.push('/about')">Go To About Page</button>
   <button @click="$router.push('/blogs/10')">Go To 10th Blog Page</button>
+
+  <!-- Class Binding -->
+  <div class="static" :class="{ 'active': isActive, 'text-danger': hasError }">Class Binding</div>
+  <div :class="[isActive ? 'active' : '', 'errorClass']"></div>
+
+  <!-- Html Binding -->
+  <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+
+  <!-- Computed Property -->
+  <p>Has published books:</p>
+  <span>{{ publishedBooksMessage }}</span>
+  <br>
+
+  <!-- Watchers -->
+  Kilometers : <input type="text" v-model="kilometers">
+  <br>
+  Meters : <input type="text" v-model="meters">
+
+  <!-- Slots is same as children in React-->
+
+  <!-- Teleport -->
+  <Teleport to="#teleported-content">
+    <h1>Hii I am Teleported</h1>
+  </Teleport>
 </template>
 
 <!-- When we use scoped below style will only apply to this file -->
@@ -194,6 +255,18 @@ Vue never renders the template tag, it’s only used to group elements. -->
   .about {
     min-height: 30vh;
     display: flex;
+  }
+
+  .static {
+    position: static;
+  }
+
+  .active {
+    font-size: 20px;
+  }
+
+  .text-danger {
+    color: red;
   }
 }
 </style>
