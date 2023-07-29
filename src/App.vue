@@ -1,20 +1,52 @@
 <!-- Vue Js is Javascript Framework for building web app. -->
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
+<script>
+import { useStore } from "vuex";
+// const store = useStore();
+export default {
+  data() {
+    return {
+      news: [],
+      posts: []
+    }
+  },
+  methods: {
+    // getNews() {
+    //   this.news = store.getters.getNewsData
+    // },
+    // getPosts() {
+    //   this.posts = store.getters.getPostsData()
+    // }
+  },
+  mounted() {
+    // console.log(store)
+    // store.dispatch('getNews');
+    // this.$store.dispatch('setPosts');
+  },
+  setup() {
+    const store = useStore();
+    function getNews() {
+      store.commit("getNews")
+    }
+    return {
+      getNews
+    }
+  }
+}
 </script>
 
 <template>
   <header>
     <div class="wrapper">
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/contact">Contact</RouterLink>
-        <RouterLink to="/blogs">Blog</RouterLink>
+        <router-link to="/">Home</router-link>
+        <router-link to="/about">About</router-link>
+        <router-link to="/contact">Contact</router-link>
+        <router-link to="/blogs">Blog</router-link>
       </nav>
     </div>
   </header>
-  <RouterView />
+  <button @click="getNews()">Get News</button>
+  <router-view />
 </template>
 
 <style scoped>

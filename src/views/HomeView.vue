@@ -3,6 +3,7 @@ defining methods that we use in this file, defining reactive state should be ins
 <script>
 import HomePage from '../components/Home/HomePage.vue'
 import axios from 'axios'
+// import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: { // List of comma seperated child components that we use in this file
@@ -40,7 +41,9 @@ export default {
         ]
       },
       kilometers: 0,
-      meters: 0
+      meters: 0,
+      news: [],
+      posts: []
     }
   },
   methods: { // List of comma seperated functions that we use in this file
@@ -81,7 +84,14 @@ export default {
         .then((response) => {
           this.postUsingAxios = response.data
         })
-    }
+    },
+    // getNews() {
+    //   // this.news = this.$store.getters.getNewsData
+    //   // this.$store.dispatch('getNews');
+    // },
+    // getPosts() {
+    //   this.posts = this.$store.getters.getPosts
+    // }
   },
   provide: { // here we mention those comma seperated data that we want to pass to successive child components 
     parentProp: 'Vipul'
@@ -102,7 +112,10 @@ export default {
   mounted() { // this life cycle hook invoked when Vue renders our content in the browser.
     this.$refs.textInputRef.focus();
     console.log(this.$refs.componentRef.homePageData); // using ref we can get components data also
-    this.getPostsUsingAxios()
+    this.getPostsUsingAxios();
+    // console.log(this.$store.modules)
+    // this.$store.dispatch('getNews');
+    // this.$store.dispatch('setPosts');
   },
   beforeUpdate() { // this life cycle hook is invoked after the data changes, but before the DOM is patched (before we see the update on the page).
     console.log('Before Update Triggered')
@@ -117,7 +130,7 @@ export default {
     console.log('Unmounted Triggered')
   },
   computed: {
-    // Whenever re-render happens below function will call again & again until any value used here is changed (return cached data)
+    // Whenever re-render happens below function will not call again & again until any value used here is changed (return cached data)
     publishedBooksMessage() {
       return this.author.books.length > 0 ? 'Yes' : 'No'
     }
@@ -247,6 +260,10 @@ Vue never renders the template tag, it’s only used to group elements. -->
   <Teleport to="#teleported-content">
     <h1>Hii I am Teleported</h1>
   </Teleport>
+
+  <!-- Vuex -->
+  <!-- <button @click="getNews">Get News</button> -->
+  <!-- <button @click="getPosts">Get Posts</button> -->
 </template>
 
 <!-- When we use scoped below style will only apply to this file -->
