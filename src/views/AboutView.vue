@@ -1,5 +1,5 @@
 <script>
-import AboutPage from '../components/About/AboutPage.vue'
+import AboutPage from '../components/AboutPage/about-page.vue'
 
 export default {
   components: {

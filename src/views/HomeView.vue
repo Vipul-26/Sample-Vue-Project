@@ -1,15 +1,28 @@
 <!-- All types of import, defining components that we use in this file,
 defining methods that we use in this file, defining reactive state should be inside script tag -->
 <script>
-import HomePage from '../components/Home/HomePage.vue'
+import HomePage from '../components/HomePage/HomePage.vue'
 import axios from 'axios'
+import myMixin from '../mixins/myMixin'
 // import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: { // List of comma seperated child components that we use in this file
     HomePage
   },
-  data() { // List of comma seperated variable(inside return) that we use in this file 
+  // props: ['prop1', 'prop2', 'prop3'], // list of all props in an array or we can use like below
+  // prop_name: {
+  //   type: prop_type,
+  //   required: true/false,
+  //   default: default_value
+  // },
+  // props: {
+  //   parentFunction: Function // type for Function
+  // },
+  // inject: ['parentProp', 'abcde'], // those props which we want to pass from parent to child to sub chiled and so on || props drillling
+  // emits: ['parentFunction'], // parents functions which call here
+  mixins: [myMixin], // comma seperated mixins, if mixins and the components data/methods are same then mixins takes less priority
+  data() { // List of comma seperated variable(inside return) that we will use in this file 
     return {
       username: 'John',
       email: 'john@abc',
@@ -93,8 +106,9 @@ export default {
     //   this.posts = this.$store.getters.getPosts
     // }
   },
-  provide: { // here we mention those comma seperated data that we want to pass to successive child components 
-    parentProp: 'Vipul'
+  provide: { // here we mention those comma seperated data that we want to pass to successive child components(props drilling)
+    parentProp: 'Vipul',
+    abcde: 'jfgjf'
   },
   // Life Cycle Hooks
   beforeCreate() { // this life cycle hook is called when template blocked has not compiled yet
@@ -129,13 +143,12 @@ export default {
   unmounted() { // this life cycle hook is invoked when the update has been processed (when we stop seeing the app in the browser)
     console.log('Unmounted Triggered')
   },
-  computed: {
-    // Whenever re-render happens below function will not call again & again until any value used here is changed (return cached data)
+  computed: { // Whenever re-render happens below function will not call again & again until any value used here is changed (return cached data)
     publishedBooksMessage() {
       return this.author.books.length > 0 ? 'Yes' : 'No'
     }
   },
-  watch: {
+  watch: { //
     kilometers: function (val) {
       this.kilometers = val;
       this.meters = val * 1000;
@@ -157,6 +170,7 @@ Vue never renders the template tag, it’s only used to group elements. -->
   </div>
 
   <!-- Passing data from parent to child & child to parent-->
+  <!-- On click of parentFunction passing from P to C it calls updateParetData method in Parent -->
   <HomePage prop1="Hi I am from Parent" prop2="prop2" prop3="prop3" v-on:parentFunction="updateParentData"
     ref="componentRef" />
   {{ parentData }}
@@ -171,7 +185,7 @@ Vue never renders the template tag, it’s only used to group elements. -->
   <!-- Event Handling -->
   <!-- Calling a function to increase the value of a number -->
   <button v-on:click="increment">Increase number with external function call</button>
-  <!-- We can also write above function as   <button @click="increment">Increment</button>-->
+  <!-- We can also write above function as <button @click="increment">Increment</button>-->
   <!-- Increase the value of a number with inline function call -->
   <button v-on:click="num = num - 1">Decrease number with inline function call</button>
   <h5>First Name:- {{ firstName }}</h5>
@@ -202,11 +216,15 @@ Vue never renders the template tag, it’s only used to group elements. -->
 
   <!-- Conditional Rendring -->
   <p v-if="isShow">isShow is true</p>
+  <p v-show="!isShow">isShow is false using v-show</p>
   <p v-if="!isShow">isShow is false</p>
   <p v-if="num === 0">The number is 0</p>
   <p v-else-if="num > 0">The number is positive</p>
   <p v-else-if="num < 0">The number is negative</p>
   <p v-else>The number is a lie</p>
+
+  <!--  While v-if will stop something being rendered if the expression within it returns false , v-show will still render the 
+  element - but it will apply display: none to the element. -->
 
   <!-- Looping -->
   <div v-for="person in people" :key="person.id">
@@ -219,6 +237,11 @@ Vue never renders the template tag, it’s only used to group elements. -->
     {{ x }} - {{ name }}
   </p>
 
+  <!-- Mixins -->
+  <h1>{{ this.counter }}</h1>
+  <button @click="this.increaseCounterByOne()">
+    Call a method from mixins to increase the value of counter by one
+  </button>
   <!-- Template Ref -->
   <p>
     <input type="text" ref="textInputRef" />
@@ -241,7 +264,7 @@ Vue never renders the template tag, it’s only used to group elements. -->
   <div class="static" :class="{ 'active': isActive, 'text-danger': hasError }">Class Binding</div>
   <div :class="[isActive ? 'active' : '', 'errorClass']"></div>
 
-  <!-- Html Binding -->
+  <!-- Html Binding || dangerouslyHtml -->
   <p>Using v-html directive: <span v-html="rawHtml"></span></p>
 
   <!-- Computed Property -->
@@ -255,6 +278,8 @@ Vue never renders the template tag, it’s only used to group elements. -->
   Meters : <input type="text" v-model="meters">
 
   <!-- Slots is same as children in React-->
+
+  <!-- Passing data from one component to another using :dataName -->
 
   <!-- Teleport -->
   <Teleport to="#teleported-content">

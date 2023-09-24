@@ -1,5 +1,5 @@
 <script>
-import BlogPage from '../components/Blog/BlogPage.vue'
+import BlogPage from '../components/BlogPage/BlogPage.vue'
 
 export default {
   components: {
@@ -10,7 +10,6 @@ export default {
 
 <template>
   <BlogPage />
-  <RouterView />
 </template>
   
 <style></style>

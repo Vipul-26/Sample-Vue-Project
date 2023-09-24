@@ -1,5 +1,5 @@
 <script>
-import ContactPage from '../components/Contact/ContactPage.vue'
+import ContactPage from '../components/ContactPage/ContactPage.vue'
 
 export default {
     components: {
