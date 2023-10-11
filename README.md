@@ -55,3 +55,35 @@ components(same as components)
 App.vue same as App.js in react
 main.js same as index.js in react
 Life Cycle in Vue is same as Life Cycle in React(Create, Mount, Update, UnMount)
+
+To split Vuex
+
+import newsActions from './actions'
+import newsGetter from './getters'
+import newsMutations from './mutations'
+
+const news = {
+  namespaced: true,
+  state() {
+    // only way to access state is through getter functions
+    return {
+      // all state variables with their initial values
+      news: []
+    }
+  },
+  getters: {
+    // functions to get state data in any files (selectors), key value pairs
+    newsGetter
+  },
+  actions: {
+    // actions are similar to mutations, the differences being that is instead of mutating the state, actions commit mutations + actions can contain arbitrary asynchronus operations
+    newsActions
+  },
+  mutations: {
+    // the only way to actually change state in a Vuex store is by committing a mutation (reducer)
+    newsMutations
+  }
+}
+
+export default news
+
