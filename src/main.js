@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import './assets/main.css' // External css added/imported here
-import store from './store/store'
+import store from './store'
 
 const app = createApp(App) // Creating the main app
 app.use(router) // integrating router functionality & store functionality

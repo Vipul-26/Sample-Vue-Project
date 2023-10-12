@@ -1,37 +1,6 @@
 <!-- Vue Js is Javascript Framework for building web app. -->
 <script>
-import { useStore } from "vuex";
-// const store = useStore();
-export default {
-  data() {
-    return {
-      news: [],
-      posts: []
-    }
-  },
-  methods: {
-    // getNews() {
-    //   this.news = store.getters.getNewsData
-    // },
-    // getPosts() {
-    //   this.posts = store.getters.getPostsData()
-    // }
-  },
-  mounted() {
-    // console.log(store)
-    // store.dispatch('getNews');
-    // this.$store.dispatch('setPosts');
-  },
-  setup() {
-    const store = useStore();
-    function getNews() {
-      store.commit("getNews")
-    }
-    return {
-      getNews
-    }
-  }
-}
+export default {};
 </script>
 
 <template>
@@ -45,7 +14,6 @@ export default {
       </nav>
     </div>
   </header>
-  <button @click="getNews()">Get News</button>
   <router-view />
 </template>
 

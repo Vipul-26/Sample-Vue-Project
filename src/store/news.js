@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 export default {
-  namespaced: true,
   state: {
     // only way to access state is through getter functions, all state variables with their initial values
     news: []
@@ -15,10 +14,10 @@ export default {
     getNews(context) {
       axios
         .get(
-          'https://newsapi.org/v1/articles?source=${channelName}&apiKey=c40d4dc492a8434a9b91a932f745989af'
+          'https://newsapi.org/v2/top-headlines/sources?apiKey=e6b098e69eef4e42b97d6811694c6e50'
         )
         .then((response) => {
-          context.commit('setNews', response.data)
+          context.commit('setNews', response.data.sources)
         })
     }
   },

@@ -59,11 +59,8 @@ export default {
       posts: []
     }
   },
-  methods: { // List of comma seperated functions that we use in this file
-    ...mapActions([ // same as mapDispatchToProps
-      'news/getNews',
-      'posts/getPosts'
-    ]),
+  methods: { // List of comma seperated functions that we use in this file, same as mapDispatchToProps
+    ...mapActions(['getNews', 'getPosts']),
     funcGetUserName() {
       return 'User Name Is:-' + this.username
     },
@@ -124,11 +121,6 @@ export default {
     this.$refs.textInputRef.focus();
     console.log(this.$refs.componentRef.homePageData); // using ref we can get components data also
     this.getPostsUsingAxios();
-    await this.getNews();
-    await this.getPosts();
-    // console.log(this.$store.modules)
-    // this.$store.dispatch('getNews');
-    // this.$store.dispatch('setPosts');
   },
   beforeUpdate() { // this life cycle hook is invoked after the data changes, but before the DOM is patched (before we see the update on the page).
     console.log('Before Update Triggered')
@@ -143,10 +135,7 @@ export default {
     console.log('Unmounted Triggered')
   },
   computed: { // Whenever re-render happens below function will not call again & again until any value used here is changed (return cached data)
-    ...mapGetters([ // same as mapStateToProps
-      'news/getNewsData',
-      'posts/getPostsData'
-    ]),
+    ...mapGetters(['getNewsData', 'getPostsData']), // same as mapStateToProps
     publishedBooksMessage() {
       return this.author.books.length > 0 ? 'Yes' : 'No'
     }
@@ -171,6 +160,10 @@ Vue never renders the template tag, it’s only used to group elements. -->
   <div class="about">
     <h1>This is home page</h1>
   </div>
+
+  <!-- Vuex -->
+  <button @click="getNews">Get News</button>
+  <button @click="getPosts">Get Posts</button>
 
   <!-- Passing data from parent to child & child to parent-->
   <!-- On click of parentFunction passing from P to C it calls updateParetData method in Parent -->
@@ -288,10 +281,6 @@ Vue never renders the template tag, it’s only used to group elements. -->
   <Teleport to="#teleported-content">
     <h1>Hii I am Teleported</h1>
   </Teleport>
-
-  <!-- Vuex -->
-  <!-- <button @click="this.functionToGetNew()">Get News</button>
-  <button @click="this.getPosts()">Get Posts</button> -->
 </template>
 
 <!-- When we use scoped below style will only apply to this file -->
