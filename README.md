@@ -44,10 +44,7 @@ npm install vue-router@next --save(manually install router if we do not opt at i
 
 npm install vuex@next --save
 
-creating component, function call(normal + event handling), passing data from Parent to Child,
-passing data from Child to Parent, all types of css usage, conditional rendring, loops, watcher,
-computed property, routing, form in vue, life cycle hooks, two way binding, Class & Html Binding,
-slots, mixins, redux(any api call & show data on page)
+creating component, function call(normal + event handling), passing data from Parent to Child, passing data from Child to Parent, all types of css usage, conditional rendring, loops, watcher, computed property, routing, form in vue, life cycle hooks, two way binding, Class & Html Binding, slots, mixins, redux(any api call & show data on page)
 
 views (all routes/pages files)(same like pages in react)
 router(main page file)(same as router's index.js in react)
