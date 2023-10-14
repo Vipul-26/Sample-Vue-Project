@@ -55,8 +55,7 @@ export default {
       },
       kilometers: 0,
       meters: 0,
-      news: [],
-      posts: []
+      myData: 1
     }
   },
   methods: { // List of comma seperated functions that we use in this file, same as mapDispatchToProps
@@ -99,6 +98,16 @@ export default {
           this.postUsingAxios = response.data
         })
     },
+    showNewsData() {
+      console.log("News", this.getNewsData);
+    },
+    showPostsData() {
+      console.log("Posts", this.getPostsData);
+    },
+    withoutCachedFunction(data) {
+      console.log("Without Cached Data means call whenever re-render happens or if data changes", data)
+      return data
+    }
   },
   provide: { // here we mention those comma seperated data that we want to pass to successive child components(props drilling)
     parentProp: 'Vipul',
@@ -126,7 +135,7 @@ export default {
     console.log('Before Update Triggered')
   },
   updated() { // this life cycle hook is invoked when the update has been processed (when we see the update on the page).
-    console.log('Updated Triggered')
+    console.log('Updated Triggered, Re-Rendered')
   },
   beforeUnmount() { // this life cycle hook is invoked right before the app is unmounted (before we stop seeing the app in the browser)
     console.log('Before Unmount Triggered')
@@ -138,6 +147,10 @@ export default {
     ...mapGetters(['getNewsData', 'getPostsData']), // same as mapStateToProps
     publishedBooksMessage() {
       return this.author.books.length > 0 ? 'Yes' : 'No'
+    },
+    cachedMethod() {
+      console.log("Cached Data", this.myData)
+      return this.myData * 2
     }
   },
   watch: { //
@@ -162,8 +175,11 @@ Vue never renders the template tag, it’s only used to group elements. -->
   </div>
 
   <!-- Vuex -->
-  <button @click="getNews">Get News</button>
+  <button @click="getNews">Get News</button> <!--- Action Dispatch-->
   <button @click="getPosts">Get Posts</button>
+
+  <button @click="showNewsData">Console News</button> <!--- Selector Dispatch-->
+  <button @click="showPostsData">Console Posts</button>
 
   <!-- Passing data from parent to child & child to parent-->
   <!-- On click of parentFunction passing from P to C it calls updateParetData method in Parent -->
@@ -192,6 +208,32 @@ Vue never renders the template tag, it’s only used to group elements. -->
   <h5>{{ param }}</h5>
   <button v-on:click="functionWithParameter(param)">Function with parameter</button>
   <!-- Multiple events can be passed as comma seperated functions -->
+
+  <!-- v-slot is a directive that allows you to pass content from a parent component to a child component. 
+    It's a way to create more flexible and reusable components. -->
+
+  <!-- Parent Component -->
+
+  <!-- <template>
+    <div>
+      <Button>
+        Using v-slot to pass content
+        <template v-slot>Click Me</template>
+      </Button>
+
+      <Button>
+        <template v-slot>Or Me</template>
+      </Button>
+    </div>
+  </template> -->
+
+  <!-- Child Component -->
+
+  <!-- <template>
+    <button>
+      <slot></slot>
+    </button>
+  </template> -->
 
   <!-- Two Way Binding -->
   <p>Two Way Data: {{ twoWayData }}</p>
@@ -272,6 +314,49 @@ Vue never renders the template tag, it’s only used to group elements. -->
   Kilometers : <input type="text" v-model="kilometers">
   <br>
   Meters : <input type="text" v-model="meters">
+
+  <!-- Computed vs Methods -->
+
+  <p>{{ cachedMethod }}</p>
+  <button @click="myData = myData + 1">Edit myData to get updated myData value</button>
+
+  {{ withoutCachedFunction(1) }}
+  <button @click="withoutCachedFunction(2)">Edit & Get UnCached Data</button>
+
+  <!-- A method inside methods is used to define a custom function that performs an action. 
+    Methods are not reactive and execute the same logic every time they are called. 
+    They are suitable for handling events, making API calls, performing complex calculations, etc. -->
+
+  <!-- A function inside computed is used to calculate and return a value based on reactive data properties. 
+      Computed properties are cached, meaning they only recalculate when their dependencies change. 
+      This makes them suitable for deriving values from existing data. In Vue.js, computed properties do not take parameters directly. -->
+
+  <!-- Watchers in Vue.js are functions that observe and react to changes in a data property. 
+    They are useful when you need to perform side effects or asynchronous operations in response to data changes.
+     Watch for Changes in a Data Property -->
+
+  <!-- <template>
+    <div>
+      <input v-model="userInput" type="text" />
+      <p>Message: {{ message }}</p>
+    </div>
+  </template>
+
+  <script>
+    export default {
+    data() {
+      return {
+        userInput: '',
+        message: ''
+      };
+    },
+    watch: {
+      userInput(newValue, oldValue) {
+        this.message = `You entered: ${newValue}`;
+      }
+    }
+  };
+  </script> -->
 
   <!-- Slots is same as children in React-->
 
